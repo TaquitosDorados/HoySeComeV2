@@ -30,6 +30,8 @@ class RecipeDetails : AppCompatActivity() {
 
         val RecetaID = Intent.getStringExtra("ID")
 
+        Log.d("ID", RecetaID.toString())
+
         val yes = getRetrofit(R.string.api_recipes).create(apiService::class.java).consultRecipeDetails("" + RecetaID + "/information?apiKey=9a1052eefaea4ef4a60c86e20847c051").enqueue(object:
             Callback<ResponseBody> {
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -69,15 +71,37 @@ class RecipeDetails : AppCompatActivity() {
                 binding.txtTime.text = obj.get("readyInMinutes").asString + " min"
 
                 //Instrucciones
-                binding.txtIntrucciones.text = "INSTRUCTIONS\n " + obj.get("instructions").asString
+                //binding.txtIntrucciones.text = "INSTRUCTIONS\n " + obj.get("instructions").asString
+
+                binding.txtIntrucciones.text = "INSTRUCTIONS\n "
+                val instrucciones = obj.get("analyzedInstructions").asJsonArray
+                for(llave in instrucciones){
+                    val steps = llave.asJsonObject.get("steps").asJsonArray
+                    for(key in steps){
+                        val currentString:String = binding.txtIntrucciones.text.toString()
+                        binding.txtIntrucciones.text = currentString + key.asJsonObject.get("number").asString + ".- " + key.asJsonObject.get("step").asString + "\n"
+                    }
+                }
 
                 //Ingredientes
                 val ingredientes = obj.get("extendedIngredients").asJsonArray
                 binding.txtIngredientes.text = "INGREDIENTS\n"
 
-                for(key in ingredientes){
-                    val currentString:String = binding.txtIngredientes.text.toString()
-                    binding.txtIngredientes.text =  currentString + key.asJsonObject.get("amount").asString + " " + key.asJsonObject.get("unit").asString + " " + key.asJsonObject.get("nameClean").asString + "\n"
+                if(ingredientes != null) {
+
+                    for (key in ingredientes) {
+                        val currentString: String = binding.txtIngredientes.text.toString()
+
+                        var name:String = try{
+                            key.asJsonObject.get("nameClean").asString
+                        } catch (e: Exception) {
+                            key.asJsonObject.get("name").asString
+                        }
+
+
+                        binding.txtIngredientes.text =
+                            currentString + key.asJsonObject.get("amount").asString + " " + key.asJsonObject.get("unit").asString + " " + name + "\n"
+                    }
                 }
             }
 

@@ -17,6 +17,9 @@
         android:theme="@style/Theme.HoySeComeV2"
         tools:targetApi="31">
         <activity
+            android:name=".SelectedIngredients"
+            android:exported="false" />
+        <activity
             android:name=".RecipeDetails"
             android:exported="false" />
         <activity

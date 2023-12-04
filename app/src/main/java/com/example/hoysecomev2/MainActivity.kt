@@ -16,12 +16,12 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val global = global()
+        var IngredientsArray = ArrayList<String>()
 
         binding.btnSearch.setOnClickListener{
                 val searchName: String = binding.txbFindIngredient.text.toString()
 
-                val list = ingredient_list.newInstance(searchName,global.ingredientArray)
+                val list = ingredient_list.newInstance(searchName,IngredientsArray)
 
                 var frg: Fragment? = supportFragmentManager.findFragmentByTag("ingredientList")
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -30,12 +30,12 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Log.d("hola", "hola")
                 }
-            Log.d("AYUDA", global.ingredientArray.toString())
+            Log.d("AYUDA", IngredientsArray.toString())
         }
 
         binding.btnNext.setOnClickListener{
             val intent = Intent(applicationContext, ShowRecipes::class.java)
-            intent.putExtra("IngredientArray", global.ingredientArray)
+            intent.putExtra("IngredientArray", IngredientsArray)
             startActivity(intent)
         }
     }
