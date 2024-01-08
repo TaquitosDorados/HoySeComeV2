@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".recipe_list">
+    tools:context=".ingredient_selection_list">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/selectedIngredientsList"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+<androidx.recyclerview.widget.RecyclerView
+android:id="@+id/selectedIngredientsList"
+android:layout_width="match_parent"
+android:layout_height="match_parent" />
 
 </FrameLayout>

@@ -17,11 +17,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         var IngredientsArray = ArrayList<String>()
+        var IngredientsIDArray = ArrayList<String>();
 
         binding.btnSearch.setOnClickListener{
                 val searchName: String = binding.txbFindIngredient.text.toString()
 
-                val list = ingredient_list.newInstance(searchName,IngredientsArray)
+                val list = ingredient_list.newInstance(searchName,IngredientsArray,IngredientsIDArray)
 
                 var frg: Fragment? = supportFragmentManager.findFragmentByTag("ingredientList")
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -34,8 +35,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.btnNext.setOnClickListener{
-            val intent = Intent(applicationContext, ShowRecipes::class.java)
+            val intent = Intent(applicationContext, SelectedIngredients::class.java)
             intent.putExtra("IngredientArray", IngredientsArray)
+            intent.putExtra("IngredientIdArray", IngredientsIDArray)
             startActivity(intent)
         }
     }

@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.hoysecomev2.databinding.ActivityIngredientetxtBinding
 import java.util.concurrent.Executors
 
-class Ingredientes_RVAdapter(val ingredientes:List<String>, val imagenes:List<String>, val ingredientArray: ArrayList<String>?):RecyclerView.Adapter<Ingredientes_RVAdapter.ViewHolder>() {
+class Ingredientes_RVAdapter(val ingredientes:List<String>, val imagenes:List<String>, val idIngrediente:List<String>, val ingredientArray: ArrayList<String>?, val ingredientIdArray: ArrayList<String>?):RecyclerView.Adapter<Ingredientes_RVAdapter.ViewHolder>() {
     inner class ViewHolder(view: View):RecyclerView.ViewHolder(view){
         val binding = ActivityIngredientetxtBinding.bind(view)
-        fun bind(ingrediente: String, imagen: String){
+        fun bind(ingrediente: String, imagen: String, id: String){
             binding.txtTexto.text = ingrediente
 
             val executor = Executors.newSingleThreadExecutor()
@@ -26,7 +26,12 @@ class Ingredientes_RVAdapter(val ingredientes:List<String>, val imagenes:List<St
             var mIcon11: Bitmap? = null
 
             binding.btnAdd.setOnClickListener{
-                ingredientArray?.add(ingrediente)
+                if(ingredientIdArray?.contains(id) == false){
+                    ingredientArray?.add(ingrediente)
+                    ingredientIdArray?.add(id)
+                } else {
+                    Log.e("Error", "encontrado repetido")
+                }
             }
 
 
@@ -55,6 +60,6 @@ class Ingredientes_RVAdapter(val ingredientes:List<String>, val imagenes:List<St
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(ingredientes[position], imagenes[position])
+        holder.bind(ingredientes[position], imagenes[position], idIngrediente[position])
     }
 }

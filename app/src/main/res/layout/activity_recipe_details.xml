@@ -41,7 +41,7 @@
                 android:id="@+id/txtTime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="45 min"
+                android:text="10 min"
                 android:textAlignment="center"
                 android:textSize="24sp" />
 

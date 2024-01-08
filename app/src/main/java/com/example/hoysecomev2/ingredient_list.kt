@@ -16,15 +16,18 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val arg_name = "name";
 private val arg_ingredientArray = ArrayList<String>();
+private val arg_ingredientIdArray = ArrayList<String>();
 class ingredient_list : Fragment() {
     private var name: String? = "apple";
     private var ingredientArray: ArrayList<String>? = ArrayList();
+    private var ingredientIdArray: ArrayList<String>? = ArrayList();
 
     private var _binding: FragmentIngredientListBinding?=null;
     private val binding get()=_binding!!;
     private lateinit var ingredientesRvadapter: Ingredientes_RVAdapter;
     private lateinit var ingredientesList:MutableList<String>;
     private lateinit var imageList:MutableList<String>;
+    private lateinit var idList:MutableList<String>;
 
     private var instance: ingredient_list? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,6 +36,7 @@ class ingredient_list : Fragment() {
         arguments?.let {
             name = it.getString(arg_name)
             ingredientArray = it.getStringArrayList(arg_ingredientArray.toString())
+            ingredientIdArray = it.getStringArrayList(arg_ingredientIdArray.toString())
         }
     }
 
@@ -41,6 +45,7 @@ class ingredient_list : Fragment() {
         _binding = FragmentIngredientListBinding.inflate(layoutInflater);
         ingredientesList=mutableListOf();
         imageList= mutableListOf();
+        idList= mutableListOf();
         initRecycler();
         insertIngredients();
         return binding.root;
@@ -49,17 +54,18 @@ class ingredient_list : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(name: String, ingredientArray: ArrayList<String>) =
+        fun newInstance(name: String, ingredientArray: ArrayList<String>, ingredientIdArray: ArrayList<String>) =
             ingredient_list().apply {
                 arguments = Bundle().apply {
                     putString(arg_name, name);
                     putStringArrayList(arg_ingredientArray.toString(), ingredientArray);
+                    putStringArrayList(arg_ingredientIdArray.toString(), ingredientIdArray);
                 }
             }
     }
 
     private fun initRecycler(){
-        ingredientesRvadapter = Ingredientes_RVAdapter(ingredientesList, imageList, ingredientArray)
+        ingredientesRvadapter = Ingredientes_RVAdapter(ingredientesList, imageList, idList, ingredientArray, ingredientIdArray)
         binding.ingredientesList.layoutManager = LinearLayoutManager(this.context)
         binding.ingredientesList.adapter = ingredientesRvadapter
     }
@@ -83,16 +89,19 @@ class ingredient_list : Fragment() {
                             ingredientesList.add(art)
                             val img:String = key.asJsonObject.get("image").asString
                             imageList.add(img);
+                            val id:String = key.asJsonObject.get("id").asString
                         }
                     }else{
                         ingredientesList.clear()
                         imageList.clear()
+                        idList.clear()
                     }
                     ingredientesRvadapter.notifyDataSetChanged()
 
                 }else{
                     ingredientesList.clear()
                     imageList.clear()
+                    idList.clear()
                     ingredientesRvadapter.notifyDataSetChanged()
                 }
             }

@@ -18,6 +18,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.Executors
+import kotlin.math.log
 
 class RecipeDetails : AppCompatActivity() {
     lateinit var binding: ActivityRecipeDetailsBinding
@@ -69,6 +70,7 @@ class RecipeDetails : AppCompatActivity() {
 
                 //Tiempo
                 binding.txtTime.text = obj.get("readyInMinutes").asString + " min"
+                Log.d("minutes", obj.get("readyInMinutes").asString)
 
                 //Instrucciones
                 //binding.txtIntrucciones.text = "INSTRUCTIONS\n " + obj.get("instructions").asString
