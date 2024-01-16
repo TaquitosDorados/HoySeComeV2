@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name=".global"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -32,7 +31,7 @@
             android:name=".ShowRecipes"
             android:exported="false" />
         <activity
-            android:name=".RecipeList"
+            android:name=".recipe_list"
             android:exported="false" />
         <activity
             android:name=".ingredientetxt"

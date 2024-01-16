@@ -10,29 +10,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.hoysecomev2.databinding.ActivityIngredientetxtBinding
-import com.example.hoysecomev2.databinding.ActivityMainBinding
+import com.example.hoysecomev2.databinding.ActivityIngredientSelectionTxtBinding
 import java.util.concurrent.Executors
 
-class Ingredientes_RVAdapter(val ingredientes:List<String>, val imagenes:List<String>, val idIngrediente:List<String>, val ingredientArray: ArrayList<String>?):RecyclerView.Adapter<Ingredientes_RVAdapter.ViewHolder>() {
+
+class ingredientes_selection_RVAdapter (val ingredientes:List<String>, val imagenes:List<String>, val idIngrediente:List<String>, val ingredientArray: ArrayList<String>?):
+    RecyclerView.Adapter<ingredientes_selection_RVAdapter.ViewHolder>() {
     inner class ViewHolder(view: View):RecyclerView.ViewHolder(view){
-        val binding = ActivityIngredientetxtBinding.bind(view)
+        val binding = ActivityIngredientSelectionTxtBinding.bind(view)
         fun bind(ingrediente: String, imagen: String, id: String){
             binding.txtTexto.text = ingrediente
+
             val executor = Executors.newSingleThreadExecutor()
 
             var handler = Handler(Looper.getMainLooper());
 
             var mIcon11: Bitmap? = null
 
-            binding.btnAdd.setOnClickListener{
-                if(ingredientArray?.contains(id)==false){
-                    ingredientArray?.add(ingrediente)
-                    ingredientArray?.add(id)
-                } else {
-                    Log.e("Repetido", "repetido")
-                }
+            binding.btnRemove.setOnClickListener{
+                ingredientArray?.removeAt( ingredientArray.indexOf(id) -1)
+                ingredientArray?.remove(id)
+
+                Log.d("simbi", ingredientArray.toString())
+
+                binding.btnRemove.isClickable = false;
             }
+
 
             executor.execute{
                 try {
@@ -51,7 +54,7 @@ class Ingredientes_RVAdapter(val ingredientes:List<String>, val imagenes:List<St
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.activity_ingredientetxt,parent,false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.activity_ingredient_selection_txt,parent,false))
     }
 
     override fun getItemCount(): Int {

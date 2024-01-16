@@ -14,4 +14,6 @@ interface apiService {
     fun consultRecipes(@Url url:String): Call<ResponseBody>
     @GET
     fun consultRecipeDetails(@Url url:String): Call<ResponseBody>
+    @GET
+    fun consultIngredientDetails(@Url url:String):Call<ResponseBody>
 }

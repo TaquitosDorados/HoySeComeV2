@@ -1,6 +1,7 @@
 package com.example.hoysecomev2
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,11 +17,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val arg_name = "name";
 private val arg_ingredientArray = ArrayList<String>();
-private val arg_ingredientIdArray = ArrayList<String>();
+//private val arg_ingredientIdArray = ArrayList<String>();
 class ingredient_list : Fragment() {
     private var name: String? = "apple";
     private var ingredientArray: ArrayList<String>? = ArrayList();
-    private var ingredientIdArray: ArrayList<String>? = ArrayList();
+    //private var ingredientIdArray: ArrayList<String>? = ArrayList();
 
     private var _binding: FragmentIngredientListBinding?=null;
     private val binding get()=_binding!!;
@@ -35,8 +36,9 @@ class ingredient_list : Fragment() {
         instance = this;
         arguments?.let {
             name = it.getString(arg_name)
+            //ingredientIdArray = it.getStringArrayList(arg_ingredientIdArray.toString())
             ingredientArray = it.getStringArrayList(arg_ingredientArray.toString())
-            ingredientIdArray = it.getStringArrayList(arg_ingredientIdArray.toString())
+
         }
     }
 
@@ -54,18 +56,20 @@ class ingredient_list : Fragment() {
     companion object {
 
         @JvmStatic
-        fun newInstance(name: String, ingredientArray: ArrayList<String>, ingredientIdArray: ArrayList<String>) =
+        fun newInstance(name: String, ingredientArray: ArrayList<String>, /*ingredientIdArray: ArrayList<String>*/) =
             ingredient_list().apply {
                 arguments = Bundle().apply {
                     putString(arg_name, name);
                     putStringArrayList(arg_ingredientArray.toString(), ingredientArray);
-                    putStringArrayList(arg_ingredientIdArray.toString(), ingredientIdArray);
+                    //putStringArrayList(arg_ingredientIdArray.toString(), ingredientIdArray);
+                    Log.d("ArrayContentsnewIns", "IngredientsArray: $ingredientArray")
                 }
             }
     }
 
     private fun initRecycler(){
-        ingredientesRvadapter = Ingredientes_RVAdapter(ingredientesList, imageList, idList, ingredientArray, ingredientIdArray)
+        ingredientesRvadapter = Ingredientes_RVAdapter(ingredientesList, imageList, idList, ingredientArray)
+        Log.d("ArrayContentsinit", "IngredientsArray: $ingredientArray")
         binding.ingredientesList.layoutManager = LinearLayoutManager(this.context)
         binding.ingredientesList.adapter = ingredientesRvadapter
     }
@@ -77,6 +81,7 @@ class ingredient_list : Fragment() {
             .build()
     }
     fun insertIngredients(){
+        Log.d("ArrayContentsInsert", "IngredientsArray: $ingredientArray")
         CoroutineScope(Dispatchers.IO).launch {
             val response = getRetrofit(R.string.api_ingredients).create(apiService::class.java).consultIngredient("search?apiKey=9a1052eefaea4ef4a60c86e20847c051&query=" + name)
             val ingredients = response.body()
@@ -90,6 +95,7 @@ class ingredient_list : Fragment() {
                             val img:String = key.asJsonObject.get("image").asString
                             imageList.add(img);
                             val id:String = key.asJsonObject.get("id").asString
+                            idList.add(id)
                         }
                     }else{
                         ingredientesList.clear()

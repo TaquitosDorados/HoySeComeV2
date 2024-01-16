@@ -1,8 +1,8 @@
 package com.example.hoysecomev2
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
@@ -17,12 +17,19 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         var IngredientsArray = ArrayList<String>()
-        var IngredientsIDArray = ArrayList<String>();
+
+        val Intent = intent
+        val ingredientArray = Intent.getStringArrayListExtra("IngredientArray")
+
+        if(ingredientArray!=null){
+            IngredientsArray = ingredientArray;
+        }
+        Log.d("Porfa", IngredientsArray.toString())
 
         binding.btnSearch.setOnClickListener{
                 val searchName: String = binding.txbFindIngredient.text.toString()
 
-                val list = ingredient_list.newInstance(searchName,IngredientsArray,IngredientsIDArray)
+                val list = ingredient_list.newInstance(searchName,IngredientsArray)
 
                 var frg: Fragment? = supportFragmentManager.findFragmentByTag("ingredientList")
                 val ft: FragmentTransaction = supportFragmentManager.beginTransaction()
@@ -31,13 +38,12 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Log.d("hola", "hola")
                 }
-            Log.d("AYUDA", IngredientsArray.toString())
+
         }
 
         binding.btnNext.setOnClickListener{
             val intent = Intent(applicationContext, SelectedIngredients::class.java)
             intent.putExtra("IngredientArray", IngredientsArray)
-            intent.putExtra("IngredientIdArray", IngredientsIDArray)
             startActivity(intent)
         }
     }

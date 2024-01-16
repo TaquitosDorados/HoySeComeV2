@@ -75,6 +75,13 @@ class recipe_list : Fragment() {
     }
 
     fun insertIngredients(){
+        val trueIngredientArray:ArrayList<String> = ArrayList()
+
+        for((index,value) in ingredientArray!!.withIndex()){
+            if(index%2==0){
+                trueIngredientArray.add(value);
+            }
+        }
 
         val yes = getRetrofit(R.string.api_recipes).create(apiService::class.java).consultRecipes("findByIngredients?apiKey=9a1052eefaea4ef4a60c86e20847c051&ingredients=" + ingredientArray.toString()).enqueue(object:
             Callback<ResponseBody> {
