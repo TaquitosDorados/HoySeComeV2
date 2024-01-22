@@ -5,6 +5,7 @@
     android:id="@+id/ingredientSelectionList"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#B57760"
     tools:context=".SelectedIngredients">
 
     <androidx.fragment.app.FragmentContainerView
@@ -27,6 +28,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:text="Go Back"
+        android:textColor="#FFFFFF"
+        android:theme="@style/Theme.DefaultButtonColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -37,6 +40,8 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="Next"
+        android:textColor="#FFFFFF"
+        android:theme="@style/Theme.DefaultButtonColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

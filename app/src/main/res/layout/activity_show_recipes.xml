@@ -5,6 +5,7 @@
     android:id="@+id/btnStart"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#B57760"
     tools:context=".ShowRecipes">
 
     <androidx.fragment.app.FragmentContainerView
@@ -26,6 +27,8 @@
         android:layout_height="74dp"
         android:layout_marginTop="11dp"
         android:text="Start Over"
+        android:textColor="#FFFFFF"
+        android:theme="@style/Theme.DefaultButtonColor"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
